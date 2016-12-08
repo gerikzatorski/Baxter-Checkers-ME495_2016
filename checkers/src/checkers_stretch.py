@@ -48,8 +48,8 @@ class CheckersGame:
     def StartGame(self):
         # Get board game ready and 
         #self.board.InitBoard(['B2', 'D4', 'C1'],['E5'])
-        self.board.InitBoard(['A5','D2','D4','B2'],['C5'])
-        
+        #self.board.InitBoard(['A5','D2','D4','B2'],['C5'])
+        self.board.InitBoard()
         self.state = GameState.WHITE_TURN
         while not self.state == GameState.GAME_OVER:
             self.UpdateView()            
