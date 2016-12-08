@@ -52,16 +52,21 @@ class CheckersGame:
             self.UpdateView()            
             if self.state == GameState.WHITE_TURN: # human's turn
                 human_move = self.HumanMoveInput()
-                self.board.Move(PlayerColor.WHITE, human_move[0], human_move[1])
+                jumped = self.board.Move(PlayerColor.WHITE, human_move[0], human_move[1])
+                #if jumped is not None:
+                    #print "You took Baxter's piece from {0}! You must jump again if available.".format(jumped)
+                    #continue
                 self.state = GameState.RED_TURN
             if self.state == GameState.RED_TURN: # Baxter's turn
                 baxter_move, dead_man = self.BaxterMove() # Assuming Baxter's move is legit
                 print "Baxter's Move is {0}".format(baxter_move)
+                self.board.Move(PlayerColor.RED, baxter_move[0], baxter_move[1])
                 move_cmd = baxter_move[0][0] + ' ' + baxter_move[0][1] + ' ' + baxter_move[1][0] + ' ' + baxter_move[1][1]
                 self.move_pub.publish(move_cmd)
+                print dead_man
                 if dead_man is not None:
                     print "Baxter took your piece from {0}".format(dead_man)
-                    move_cmd = dead_man[0] + ' ' + dead_man[1] + ' ' + dead_man[3] + ' ' + dead_man[4]
+                    move_cmd = dead_man[0] + ' ' + dead_man[1] + ' Z 9'
                 
                 self.state = GameState.WHITE_TURN
 
@@ -111,6 +116,7 @@ class CheckersGame:
                 pieces.append(key)
         available_moves = []
         available_jumps = []
+        captured = None
         for start in pieces:
             for key, val in self.board.tiles.iteritems():
                 end = key
@@ -118,11 +124,11 @@ class CheckersGame:
                     available_moves.append((start, end))
                 if self.board.ValidJump(PlayerColor.RED, start, end)[0]:
                     available_jumps.append((start, end))
-        if len(available_jumps):
-            captured = ValidJump(PlayerColor.RED, start, end)[1]
+        if len(available_jumps) > 0:
+            captured = self.board.ValidJump(PlayerColor.RED, available_jumps[0][0], available_jumps[0][1])[1]
             return available_jumps[0], captured
         else:
-            return available_moves[0]
+            return available_moves[0], None
         
     def UpdateView(self):
         """ Passes board model to view """
@@ -177,13 +183,6 @@ class CheckersBoard:
         print blah
         return 0
                 
-                
-
-    # 3 "public" methods
-    def AcceptRequest(self):
-        """ Accepts a a request to make a move by a player """
-        return "TODO"
-
     def ClearBoard(self):
         """ Clears the board by setting all tiles to empty """
         for key, val in self.tiles.iteritems():
@@ -374,21 +373,24 @@ class CheckersBoard:
         return (True, mid_tile) # Return Tile location if jump is true
 
     def Move(self, color, start, end):
-        """ TODO """
-        # TODO: capture pieces here
+        """ Returns the tile key of jumped piece (if jumped exists) """
         jumped = self.ValidJump(color, start, end)
         if (self.ValidMove(color, start, end) or jumped[0]):
             # pick up piece
-            # TODO: this currently doesn't change the row or col of tile object
             in_hand = self.tiles[start].state
             self.tiles[start].state = TileState.EMPTY
             # put piece down
             self.tiles[end].state = in_hand
             if jumped[0]:
                 self.tiles[jumped[1]].state = TileState.EMPTY
-                # TODO: tell baxter to remove (or maybe do this in controller)
-        # TODO: do we king the tile?
-        return jumped[1] # Return tile key of jumped piece
+        # do we king the tile?
+        if color == PlayerColor.RED and self.tiles.get(end).row == '1':
+            print "King that red piece!"
+            self.tiles.get(end).state = TileState.RED_KING
+        if color == PlayerColor.WHITE and self.tiles.get(end).row == '6':
+            print "King that white piece!"
+            self.tiles.get(end).state = TileState.WHITE_KING
+        return jumped[1] # Return tile key of jumped piece, will be None is not jumped
         
     def GameOver(self):
         """ TODO """
@@ -475,8 +477,13 @@ class Player:
 
 ######################################### Testing #########################################
 def main(argv):
-    game = CheckersGame()
-    game.StartGame()
+    while not rospy.is_shutdown():
+        game = CheckersGame()
+        game.StartGame()
 
 if __name__ == '__main__':
-    main(sys.argv[1:])
+    try:
+        main(sys.argv[1:])
+    except rospy.ROSInterruptException:
+        pass
+    #except KeyboardInterrupt:
