@@ -112,7 +112,7 @@ def main():
     # dummy pose
     dummy_pose = Pose(
                 position=Point(x= 0.460597556131,y=0.215572057988,z=-0.124597871731),
-                orientation=Quaternion(x= 0.998658511565,y=-0.00795861100836,z=-0.00425494800061,w=-0.0509875789477),
+                orientation=Quaternion(x= 0.998658511565,y=-0.00795861100836,z=-0.00425494800061,w=-0.0509875789477)
             )
     
     pub_baxtermovement.publish(dummy_pose)

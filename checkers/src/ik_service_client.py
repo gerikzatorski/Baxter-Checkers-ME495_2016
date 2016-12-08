@@ -38,13 +38,8 @@ def ik_test(limb, pose):
         'left': PoseStamped(
             header=hdr,
             pose=Pose(
-                position=Point(x = pose.position.x,
-                               y = pose.position.y,
-                               z = pose.position.z),
-                orientation=Quaternion(x = pose.orientation.x,
-                                       y = pose.orientation.y,
-                                       z = pose.orientation.z,
-                                       w = pose.orientation.w),
+                position=Point(x = pose.position.x, y = pose.position.y, z = pose.position.z),
+                orientation=Quaternion(x = pose.orientation.x, y = pose.orientation.y, z = pose.orientation.z, w = pose.orientation.w),
             ),
         ),
         'right': PoseStamped(
@@ -88,9 +83,7 @@ def ik_test(limb, pose):
               (seed_str,))
         # Format solution into Limb API-compatible dictionary
         limb_joints = dict(zip(resp.joints[0].name, resp.joints[0].position))
-        print "\nIK Joint Solution:\n", limb_joints
-        print "------------------"
-        print "Response Message:\n", resp
+
 
         limb = baxter_interface.Limb('left')
         limb.move_to_joint_positions(limb_joints)
@@ -102,26 +95,20 @@ def ik_test(limb, pose):
 def callback(msg):
    global desired_pose
    desired_pose = msg
+   rospy.loginfo("Received desired pose")
 
 
 def main():
     """RSDK Inverse Kinematics Example """
-
-    #arg_fmt = argparse.RawDescriptionHelpFormatter
-    #parser = argparse.ArgumentParser(formatter_class=arg_fmt,
-                                     #description=main.__doc__)
-    #parser.add_argument(
-    #    '-l', '--limb', choices=['left', 'right'], required=True,
-    #    help="the limb to test"
-    #)
-    #args = parser.parse_args(rospy.myargv()[1:])
     
     limb = 'left'
 
     # Create subscriber
     rospy.Subscriber('desired_position/pose', Pose, callback)
 
-    return ik_test(limb, desired_pose)
+    while not rospy.is_shutdown():
+
+    	ik_test(limb, desired_pose)
 
 if __name__ == '__main__':
-    sys.exit(main())
+    main()
