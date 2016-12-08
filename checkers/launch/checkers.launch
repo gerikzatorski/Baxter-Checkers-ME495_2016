@@ -1,0 +1,9 @@
+<launch>
+
+  <!-- Center finding node -->
+  <node name="center_detection" pkg="checkers" type="center_detection.py" output="screen" />
+
+  <!-- Center finding node -->
+  <node name="calc_and_send_pose" pkg="checkers" type="calc_and_send_pose.py" output="screen" />
+
+</launch>
