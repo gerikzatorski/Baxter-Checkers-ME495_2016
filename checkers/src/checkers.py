@@ -28,7 +28,7 @@ class Columns:
 
 class CheckersGame:
     """ A Checkers Game (The Controller) """
-    def __init__(self, robot):
+    def __init__(self):
         self.mode = None
         self.board = CheckersBoard() # the model
         self.view = CheckersView() # the view
@@ -37,15 +37,14 @@ class CheckersGame:
         # self.white = Player("human")
         #self.red = Player("baxter")
         self.state = GameState.IDLE
-        if robot:
-            rospy.init_node('checkers_engine')
-            self.move_pub = rospy.Publisher('/relay', String, queue_size=10)
+        rospy.init_node('checkers_engine')
+        self.move_pub = rospy.Publisher('/relay', String, queue_size=10)
         
         '''
         rospy.Subscriber('keys', String, key_pub_rate.keys_callback)
         '''
 
-    def StartGame(self, robot):
+    def StartGame(self):
         # Get board game ready and 
         self.board.InitBoard()
         self.state = GameState.WHITE_TURN
@@ -56,14 +55,14 @@ class CheckersGame:
                 self.board.Move(PlayerColor.WHITE, human_move[0], human_move[1])
                 self.state = GameState.RED_TURN
             if self.state == GameState.RED_TURN: # Baxter's turn
-                baxter_move = self.BaxterMove() # Assuming Baxter's move is legit
+                baxter_move, dead_man = self.BaxterMove() # Assuming Baxter's move is legit
                 print "Baxter's Move is {0}".format(baxter_move)
                 move_cmd = baxter_move[0][0] + ' ' + baxter_move[0][1] + ' ' + baxter_move[1][0] + ' ' + baxter_move[1][1]
-                dead_man = self.board.Move(PlayerColor.RED, baxter_move[0], baxter_move[1])
+                self.move_pub.publish(move_cmd)
                 if dead_man is not None:
                     print "Baxter took your piece from {0}".format(dead_man)
                     move_cmd = dead_man[0] + ' ' + dead_man[1] + ' ' + dead_man[3] + ' ' + dead_man[4]
-                self.move_pub.publish(move_cmd)
+                
                 self.state = GameState.WHITE_TURN
 
     def OnBoard(self, start, end):
@@ -120,7 +119,8 @@ class CheckersGame:
                 if self.board.ValidJump(PlayerColor.RED, start, end)[0]:
                     available_jumps.append((start, end))
         if len(available_jumps):
-            return available_jumps[0]
+            captured = ValidJump(PlayerColor.RED, start, end)[1]
+            return available_jumps[0], captured
         else:
             return available_moves[0]
         
@@ -475,12 +475,8 @@ class Player:
 
 ######################################### Testing #########################################
 def main(argv):
-    if len(argv) == 0:
-        game = CheckersGame(True)
-        game.StartGame(True)
-    else:
-        game = CheckersGame(False)
-        game.StartGame(False)
+    game = CheckersGame()
+    game.StartGame()
 
 if __name__ == '__main__':
     main(sys.argv[1:])
