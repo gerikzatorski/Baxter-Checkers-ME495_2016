@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import rospy
-from std_msgs.msg import Header, Bool
+from std_msgs.msg import Header, String
 from sensor_msgs.msg import JointState
 from geometry_msgs.msg import (
     PoseStamped,
@@ -71,7 +71,7 @@ def map(des_pos):
 if __name__ == '__main__':
     rospy.loginfo("Searching for goal configuration...")
     rospy.init_node('search', anonymous=True)
-    sub = rospy.Subscriber('''Gerik topic''', PoseStamped, map)
+    sub = rospy.Subscriber('relay', String, map)
     pub = rospy.Publisher('/desired_position/pose', Pose)
 
     while not rospy.is_shutdown():
