@@ -39,7 +39,7 @@ class CheckersGame:
         self.state = GameState.IDLE
         if robot:
             rospy.init_node('checkers_engine')
-            self.move_pub = rospy.Publisher('relay', String, queue_size=10)
+            self.move_pub = rospy.Publisher('/relay', String, queue_size=10)
         
         '''
         rospy.Subscriber('keys', String, key_pub_rate.keys_callback)
@@ -58,11 +58,12 @@ class CheckersGame:
             if self.state == GameState.RED_TURN: # Baxter's turn
                 baxter_move = self.BaxterMove() # Assuming Baxter's move is legit
                 print "Baxter's Move is {0}".format(baxter_move)
+                move_cmd = baxter_move[0][0] + ' ' + baxter_move[0][1] + ' ' + baxter_move[1][0] + ' ' + baxter_move[1][1]
                 dead_man = self.board.Move(PlayerColor.RED, baxter_move[0], baxter_move[1])
                 if dead_man is not None:
                     print "Baxter took your piece from {0}".format(dead_man)
                     move_cmd = dead_man[0] + ' ' + dead_man[1] + ' ' + dead_man[3] + ' ' + dead_man[4]
-                    if robot: self.move_pub(move_cmd)
+                self.move_pub.publish(move_cmd)
                 self.state = GameState.WHITE_TURN
 
     def OnBoard(self, start, end):

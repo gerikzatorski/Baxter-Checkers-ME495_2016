@@ -10,21 +10,24 @@ from geometry_msgs.msg import (
     Quaternion,
 )
 
-global coord []
+coord = [] 
 
-def map(des_pos):
+def map_fxn(des_pos):
+    global coord 
     #Hardcoded Checker Square Positions [position xyz, quaternion xyzw]
-    gridnum = relayin.split("")
-    col = [gridnum[0], gridnum[3]]
-    row = [gridnum[2], gridnum[4]]
-
-    for in in range(0:2):
+    des_pos = str(des_pos)
+    print(des_pos)
+    col = [des_pos[6], des_pos[10]]
+    print(col)
+    row = [des_pos[8], des_pos[12]]
+     
+    for i in range(2):
         if col[i] is "A":
             if row[i] is "1":
                 goal_config = [0.872938148433,-0.138781518623,-0.110217993585, 0.988878629836,-0.029651083868,0.145533214769,0.00774287273203]
             elif row[i] is "3":
                 goal_config = [0.729672658698,-0.14944781132,-0.120499311968,0.999609426012,0.00572608810826,-0.00460464166538,-0.0269630231691]
-            elif row[i] is "5"
+            elif row[i] is "5":
                 goal_config = [0.570712645075,-0.160234803396,-0.132486596368,0.998810315661,0.00349512257207,0.0118907556165,-0.0471629873764]
 
         elif col[i] is "B":
@@ -66,43 +69,49 @@ def map(des_pos):
                 goal_config = [0.634406807152,0.234400486975,-0.122325653523,0.996848785384, 0.0281205623789,-0.026556072908,-0.0692568266858]
             elif row[i] is "6":
                 goal_config = [0.460597556131,0.215572057988,-0.124597871731, 0.998658511565,-0.00795861100836,-0.00425494800061,-0.0509875789477]
+        
+        coord.append(goal_config)
+    print(coord)
+    fromconfig=Pose(
+        position=Point(
+            x=coord[0][0],
+            y=coord[0][1],
+            z=coord[0][2],
+        ),
+        orientation=Quaternion(
+            x=coord[0][3],
+            y=coord[0][4],
+            z=coord[0][5],
+            w=coord[0][6],
+        ))
 
-        global coord = [goal_config[0], goal_config[1]]
+    toconfig=Pose(
+        position=Point(
+            x=coord[1][0],
+            y=coord[1][1],
+            z=coord[1][2],
+        ),
+        orientation=Quaternion(
+            x=coord[1][3],
+            y=coord[1][4],
+            z=coord[1][5],
+            w=coord[1][6],
+        ))
+
+    pub.publish(fromconfig)
+    #print(fromconfig)
+        
 
 if __name__ == '__main__':
+
     rospy.loginfo("Searching for goal configuration...")
-    rospy.init_node('search', anonymous=True)
-    sub = rospy.Subscriber('relay', String, map)
-    pub = rospy.Publisher('/desired_position/pose', Pose)
+    rospy.init_node('search')
+    sub = rospy.Subscriber('relay', String, map_fxn)
+    pub = rospy.Publisher('/desired_position/pose', Pose, queue_size = 10)   
 
-    while not rospy.is_shutdown():
-        fromconfig=Pose(
-            position=Point(
-                x=coord[0,1],
-                y=coord[0,1],
-                z=coord[0,2],
-            ),
-            orientation=Quaternion(
-                x=coord[0,3],
-                y=coord[0,4],
-                z=coord[0,5],
-                w=coord[0,6],
-            )
+    #map_fxn("A 3 B 2")
 
-        toconfig=Pose(
-            position=Point(
-                x=coord2[1,0],
-                y=coord2[1,1],
-                z=coord2[1,2],
-            ),
-            orientation=Quaternion(
-                x=coord2[1,3],
-                y=coord2[1,4],
-                z=coord2[1,5],
-                w=coord2[1,6],
-            )
-
-        pub.publish(fromconfig)
+    #while not rospy.is_shutdown():   
 
         #rospy.sleep(5)
         #pub.publish(toconfig)
