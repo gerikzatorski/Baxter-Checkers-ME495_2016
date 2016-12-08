@@ -9,6 +9,7 @@ from geometry_msgs.msg import (
     Point,
     Quaternion,
 )
+from std_msgs.msg import String,Header,Bool
 
 coord = [] 
 
@@ -99,15 +100,21 @@ def map_fxn(des_pos):
         ))
 
     pub.publish(fromconfig)
-    #print(fromconfig)
-        
+
+    # wait for 10 sec
+    rospy.sleep(10)
+
+    # send got_to_position = True flag to Gale's node
+    rospy.loginfo("Setting got_to_position flag...")
+    pub2.publish(True)    
 
 if __name__ == '__main__':
 
     rospy.loginfo("Searching for goal configuration...")
     rospy.init_node('search')
     sub = rospy.Subscriber('relay', String, map_fxn)
-    pub = rospy.Publisher('/desired_position/pose', Pose, queue_size = 10)   
+    pub = rospy.Publisher('/desired_position/pose', Pose, queue_size = 10)
+    pub2 = rospy.Publisher("got_to_position", Bool, queue_size = 10)   
 
     #map_fxn("A 3 B 2")
 

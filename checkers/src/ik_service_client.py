@@ -61,7 +61,7 @@ def ik_test(limb, pose):
     }
 
     ikreq.pose_stamp.append(poses[limb])
-    rospy.loginfo("Made it here!")
+    #rospy.loginfo("Made it here!")
     try:
         rospy.wait_for_service(ns, 5.0)
         resp = iksvc(ikreq)
@@ -87,8 +87,8 @@ def ik_test(limb, pose):
 
         limb = baxter_interface.Limb('left')
         limb.move_to_joint_positions(limb_joints)
-    else:
-        print("INVALID POSE - No Valid Joint Solution Found.")
+    #else:
+        #print("INVALID POSE - No Valid Joint Solution Found.")
 
     return 0
 

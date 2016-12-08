@@ -1,0 +1,15 @@
+<launch>
+
+  <!-- IK Service -->
+  <node name="rsdk_ik_service_client" pkg="checkers" type="ik_service_client.py" output="screen" launch-prefix="xterm -e" />
+
+  <!-- Checkers Engine node -->
+  <node name="checkers_engine" pkg="checkers" type="checkers.py" output="screen" />
+
+  <!-- Search node -->
+  <node name="search" pkg="checkers" type="search.py" output="screen" />
+
+  <!-- Run other launch file  -->
+  <include file="$(find checkers)/launch/checkers.launch" /> 
+
+</launch>

@@ -56,6 +56,7 @@ class CheckersGame:
                 self.state = GameState.RED_TURN
             if self.state == GameState.RED_TURN: # Baxter's turn
                 baxter_move, dead_man = self.BaxterMove() # Assuming Baxter's move is legit
+                #print(self.BaxterMove())
                 print "Baxter's Move is {0}".format(baxter_move)
                 move_cmd = baxter_move[0][0] + ' ' + baxter_move[0][1] + ' ' + baxter_move[1][0] + ' ' + baxter_move[1][1]
                 self.move_pub.publish(move_cmd)
@@ -122,7 +123,7 @@ class CheckersGame:
             captured = ValidJump(PlayerColor.RED, start, end)[1]
             return available_jumps[0], captured
         else:
-            return available_moves[0]
+            return available_moves[0], None
         
     def UpdateView(self):
         """ Passes board model to view """
