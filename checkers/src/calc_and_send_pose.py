@@ -24,11 +24,11 @@ got_center_position = False
 
 
 # Create publisher to send PoseStamped() message to topic for Baxter to move towards
-pub_baxtermovement = rospy.Publisher('desired_position/posestamped', PoseStamped, queue_size=10)
+pub_baxtermovement = rospy.Publisher('desired_position/pose', Pose, queue_size=10)
 
 
 def readEEPose(msg):
-    ''' Callback fxn for reading the pose of the EE'''
+    ''' Callback fxn for reading the Pose() of the EE'''
 
     pose = msg.pose
 
@@ -71,9 +71,9 @@ def poseToGrip(msg):
         # Only calc new pose if we're ready
         if got_current_pose and got_center_position:         
 
-            # Create a PoseStamped() message based on piece position and current ee pose
-            move_to_pose = PoseStamped()
-            move_to_pose.header=Header(stamp=rospy.Time.now(), frame_id='base')
+            # Create a Pose() message based on piece position and current ee pose
+            move_to_pose = Pose()
+            #move_to_pose.header=Header(stamp=rospy.Time.now(), frame_id='base')
             move_to_pose.pose.position=Point(
                 x = position_Piece.x,
                 y = position_Piece.y,
@@ -108,6 +108,15 @@ def main():
     # Subscribe to Baxter's left ee pose and center of piece topic
     rospy.Subscriber("/robot/limb/left/endpoint_state",EndpointState,readEEPose)
     rospy.Subscriber("center_of_piece",Point,getPiecePosition)
+
+    # dummy pose
+    dummy_pose = Pose(
+                position=Point(x= 0.460597556131,y=0.215572057988,z=-0.124597871731),
+                orientation=Quaternion(x= 0.998658511565,y=-0.00795861100836,z=-0.00425494800061,w=-0.0509875789477),
+            )
+    
+    pub_baxtermovement.publish(dummy_pose)
+    rospy.loginfo("Dummy Pose sent...")
 
     rospy.spin()
 
