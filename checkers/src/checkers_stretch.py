@@ -47,7 +47,9 @@ class CheckersGame:
 
     def StartGame(self):
         # Get board game ready and 
-        self.board.InitBoard()
+        #self.board.InitBoard(['B2', 'D4', 'C1'],['E5'])
+        self.board.InitBoard(['A5','D2','D4','B2'],['C5'])
+        
         self.state = GameState.WHITE_TURN
         while not self.state == GameState.GAME_OVER:
             self.UpdateView()            
@@ -57,7 +59,7 @@ class CheckersGame:
                 # house cleaning
                 if jumped is not None:
                     print "You took Baxter's piece from {0}!".format(jumped)
-                    if crowned:
+                    if not crowned:
                         start = human_move[1]
                         available_jumps = []
                         for key, val in self.board.tiles.iteritems():
@@ -71,13 +73,25 @@ class CheckersGame:
             if self.state == GameState.RED_TURN: # Baxter's turn
                 baxter_move, dead_man = self.BaxterMove() # Assuming Baxter's move is legit
                 print "Baxter's Move is {0}".format(baxter_move)
-                self.board.Move(PlayerColor.RED, baxter_move[0], baxter_move[1])
+                jumped, crowned = self.board.Move(PlayerColor.RED, baxter_move[0], baxter_move[1])
                 move_cmd = baxter_move[0][0] + ' ' + baxter_move[0][1] + ' ' + baxter_move[1][0] + ' ' + baxter_move[1][1]
                 self.move_pub.publish(move_cmd)
                 if dead_man is not None:
                     print "Baxter took your piece from {0}".format(dead_man)
-                    move_cmd = dead_man[0] + ' ' + dead_man[1] + ' Z 9'
-                    done_moving = raw_input("Is Baxter done moving? (type anything when done)")
+                    # TODO: have baxter removed pieces he captures
+                    #move_cmd = dead_man[0] + ' ' + dead_man[1] + ' Z 9'
+                    print crowned
+                    if not crowned:
+                        start = baxter_move[1]
+                        available_jumps = []
+                        for key, val in self.board.tiles.iteritems():
+                            end = key
+                            if self.board.ValidJump(PlayerColor.RED, start, end)[0]:
+                                available_jumps.append((start, end))
+                        if len(available_jumps) > 0:
+                            print "Baxter has a sequencial jump"
+                            done_moving = raw_input("Is Baxter done moving? (type anything when done)")
+                            continue
                 self.state = GameState.WHITE_TURN
 
     def OnBoard(self, start, end):
@@ -118,6 +132,7 @@ class CheckersGame:
         return (start, end)
 
     def BaxterMove(self):
+        """ TODO: the capture part of this is repeated """
         pieces = []
         for key, val in self.board.tiles.iteritems():
             # TODO optional: keep in mind that tiles only update state and not name
@@ -199,11 +214,20 @@ class CheckersBoard:
         for key, val in self.tiles.iteritems():
             self.tiles[key].state = TileState.EMPTY
 
-    def InitBoard(self):
+    def InitBoard(self, whites=None, reds=None):
         """ Sets the board up for a new game with red on top and white on bottom """
-        # Place two red rows on top and two white rows on bottom
-        self.tiles['A1'].state = self.tiles['C1'].state = self.tiles['E1'].state = self.tiles['B2'].state = self.tiles['D2'].state = self.tiles['F2'].state = TileState.WHITE_PIECE
-        self.tiles['B6'].state = self.tiles['D6'].state = self.tiles['F6'].state = self.tiles['A5'].state = self.tiles['C5'].state = self.tiles['E5'].state = TileState.RED_PIECE
+        # Custom Setup
+        if whites is not None or reds is not None:
+            if whites is not None:
+                for location in whites:
+                    self.tiles[location].state = TileState.WHITE_PIECE
+            if reds is not None:
+                for location in reds:
+                    self.tiles[location].state = TileState.RED_PIECE
+        else:
+            # Place two red rows on top and two white rows on bottom
+            self.tiles['A1'].state = self.tiles['C1'].state = self.tiles['E1'].state = self.tiles['B2'].state = self.tiles['D2'].state = self.tiles['F2'].state = TileState.WHITE_PIECE
+            self.tiles['B6'].state = self.tiles['D6'].state = self.tiles['F6'].state = self.tiles['A5'].state = self.tiles['C5'].state = self.tiles['E5'].state = TileState.RED_PIECE
         # Invalidate moves to some tiles
         self.tiles['A2'].state = self.tiles['A4'].state = self.tiles['A6'].state = TileState.INVALID
         self.tiles['B1'].state = self.tiles['B3'].state = self.tiles['B5'].state = TileState.INVALID
@@ -211,6 +235,7 @@ class CheckersBoard:
         self.tiles['D1'].state = self.tiles['D3'].state = self.tiles['D5'].state = TileState.INVALID
         self.tiles['E2'].state = self.tiles['E4'].state = self.tiles['E6'].state = TileState.INVALID
         self.tiles['F1'].state = self.tiles['F3'].state = self.tiles['F5'].state = TileState.INVALID
+        
 
     def CurrentPlayer(self, start):
         """ What player a move represents. Used to determine tile color of player start. """
