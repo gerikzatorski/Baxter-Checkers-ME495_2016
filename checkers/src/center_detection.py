@@ -97,7 +97,7 @@ def callback(ros_img):
 def listener():
     '''Listens to the left hand camera'''
 
-    rospy.init_node('center_detection')
+    #rospy.init_node('center_detection')
 
     # Creates windows for images
     cv2.namedWindow("Original Image", 1)
