@@ -27,7 +27,7 @@ class Columns:
 
 class CheckersGame:
     """ A Checkers Game (The Controller) """
-    def __init__(self, robot):
+    def __init__(self)
         self.mode = None
         self.board = CheckersBoard() # the model
         self.view = CheckersView() # the view
@@ -36,15 +36,14 @@ class CheckersGame:
         # self.white = Player("human")
         #self.red = Player("baxter")
         self.state = GameState.IDLE
-        if robot:
-            rospy.init_node('checkers_engine')
-            self.move_pub = rospy.Publisher('relay', String, queue_size=10)
+        rospy.init_node('checkers_engine')
+        self.move_pub = rospy.Publisher('relay', String, queue_size=10)
         
         '''
         rospy.Subscriber('keys', String, key_pub_rate.keys_callback)
         '''
 
-    def StartGame(self, robot):
+    def StartGame(self)
         # Get board game ready and 
         self.board.InitBoard()
         self.state = GameState.WHITE_TURN
@@ -61,7 +60,7 @@ class CheckersGame:
                 if dead_man is not None:
                     print "Baxter took your piece from {0}".format(dead_man)
                     move_cmd = dead_man[0] + ' ' + dead_man[1] + ' ' + dead_man[3] + ' ' + dead_man[4]
-                if robot: self.move_pub(move_cmd)
+                self.move_pub(move_cmd)
                 self.state = GameState.WHITE_TURN
 
     def OnBoard(self, start, end):
@@ -473,12 +472,8 @@ class Player:
 
 ######################################### Testing #########################################
 def main(argv):
-    if len(argv) == 0:
-        game = CheckersGame(True)
-        game.StartGame(True)
-    else:
-        game = CheckersGame(False)
-        game.StartGame(False)
+        game = CheckersGame()
+        game.StartGame()
 
 if __name__ == '__main__':
     main(sys.argv[1:])
