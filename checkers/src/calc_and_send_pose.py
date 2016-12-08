@@ -80,10 +80,10 @@ def poseToGrip(msg):
 
             incremental_distance =  0.0025
                  
-            diffx = position_Piece.x - 23
-            diffy = position_Piece.y - 83
-	    scale_factor_x = fabs(diffx)*0.3
-	    scale_factor_y = fabs(diffy)*0.4
+            diffx = position_Piece.x - 25
+            diffy = position_Piece.y - 80
+	    scale_factor_x = fabs(diffx)*0.2
+	    scale_factor_y = fabs(diffy)*0.2
 
             # X-position of point not within range of center of frame
             if diffx < 0:
@@ -96,10 +96,10 @@ def poseToGrip(msg):
                 pointx = pose_ee[0,0];
 
             # Y-position of point not within range of center of frame
-            if diffy < 0:
+            if diffy > 0:
                 pointy = pose_ee[1,0] - incremental_distance*scale_factor_y
                 
-            elif diffy > 0:
+            elif diffy < 0:
                 pointy = pose_ee[1,0] + incremental_distance*scale_factor_y
                 
             else:             

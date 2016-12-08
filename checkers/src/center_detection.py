@@ -8,6 +8,7 @@ import cv2
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 from geometry_msgs.msg import Point
+from math import fabs
 
 # HSV thresholding limits for RED
 low_red = np.array([0,50,50])
@@ -55,8 +56,9 @@ def callback(ros_img):
     for i in range(len(contours)):
         cont = contours[i] 
         area = cv2.contourArea(cont)
-        #rospy.loginfo("Area: % i", area)
-        if area > 1500:
+        
+        if area > 3000:
+            #rospy.loginfo("Area: % i", area)
             pieces_list.append(cont)
 
     # Choose the one closest to the center
@@ -71,8 +73,11 @@ def callback(ros_img):
             # Get center of square
             center_x, center_y = square_center_calc(box)
             if center_y > highest:
-                best = box
-                best_cont = cont
+                dist_from_center = fabs(center_x - (width/2))
+                #print(dist_from_center)
+                if dist_from_center < 100:
+                    best = box
+                    best_cont = cont
             
     if best is not None and best_cont is not None:  
         cv2.drawContours(cv_image,[best],0,(0,0,255),2)            
