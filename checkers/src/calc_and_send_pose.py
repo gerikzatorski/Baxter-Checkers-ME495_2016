@@ -29,6 +29,8 @@ got_center_position = False
 pub_baxtermovement = rospy.Publisher('desired_position/pose', Pose, queue_size=10)
 # Also make a publisher to let them know I'm done
 pub_flag = rospy.Publisher("got_to_position", Bool, queue_size=10)
+# Another pub
+#pub_gripper = rospy.Publisher("gripper_state", Bool, queue_size=10)
 
 
 def readEEPose(msg):
@@ -62,15 +64,12 @@ def getPiecePosition(msg):
 
     global got_center_position
     got_center_position = True
-    #rospy.loginfo("Got center position...")
 
  
 def poseToGrip(msg):
     '''CALLBACK: Creates PoseStamped() message to move towards piece and grip it '''
     
     if msg: 
-
-        rospy.loginfo("Calculating new pose...")
 
         # Only calc new pose if we're ready
         if got_current_pose and got_center_position:
@@ -80,38 +79,37 @@ def poseToGrip(msg):
             move_to_pose = Pose()
 
             incremental_distance =  0.0025
-            print(position_Piece)
                  
             diffx = position_Piece.x - 23
             diffy = position_Piece.y - 83
 	    scale_factor_x = fabs(diffx)*0.3
-	    scale_factor_y = fabs(diffy)*0.3
+	    scale_factor_y = fabs(diffy)*0.4
 
             # X-position of point not within range of center of frame
             if diffx < 0:
                 pointx = pose_ee[0,0] + incremental_distance*scale_factor_x
-                print("increasing my x")
+                
             elif diffx > 0:
                 pointx = pose_ee[0,0] - incremental_distance*scale_factor_x
-                print("decreasing my x")
+                
             else:
                 pointx = pose_ee[0,0];
 
             # Y-position of point not within range of center of frame
             if diffy < 0:
                 pointy = pose_ee[1,0] - incremental_distance*scale_factor_y
-                print("decreasing my y")
+                
             elif diffy > 0:
                 pointy = pose_ee[1,0] + incremental_distance*scale_factor_y
-                print("increasing my y")
+                
             else:             
                 pointy = pose_ee[1,0]
 
-            #move_to_pose.header=Header(stamp=rospy.Time.now(), frame_id='base')
+            
             move_to_pose.position=Point(
-                x = pointx, #pose_ee[0,0], #position_Piece.x,
-                y = pointy, #pose_ee[1,0], #position_Piece.y,
-                z = -0.200769718302,
+                x = pointx, 
+                y = pointy, 
+                z = -0.19,
                     )
             move_to_pose.orientation=Quaternion(
                 x = pose_ee[3,0],
@@ -120,13 +118,14 @@ def poseToGrip(msg):
                 w = pose_ee[6,0],
                     )
         
-            # Send PoseStamped() message to Baxter's movement function
-            pub_baxtermovement.publish(move_to_pose)
-            print(move_to_pose)
+            # Go DOWN
+            pub_baxtermovement.publish(move_to_pose) 
+            rospy.sleep(5)
 
-            # Change flag to let them know I'm done
-            #pub_flag.publish(False)
-            rospy.loginfo("Pose sent...")         
+            # GRAB Calibrate and close left gripper
+            baxterleft = baxter_interface.Gripper('left')
+            baxterleft.close()
+                   
 
 
 # Main sequence of events
@@ -141,14 +140,6 @@ def main():
     rospy.Subscriber("/robot/limb/left/endpoint_state",EndpointState,readEEPose)
     rospy.Subscriber("center_of_piece",Point,getPiecePosition)
 
-    # dummy pose
-    #dummy_pose = Pose(
-    #            position=Point(x= 0.460597556131,y=0.215572057988,z=-0.124597871731),
-    #            orientation=Quaternion(x= 0.998658511565,y=-0.00795861100836,z=-0.00425494800061,w=-0.0509875789477)
-    #       )
-    
-    #pub_baxtermovement.publish(dummy_pose)
-    #rospy.loginfo("Dummy Pose sent...")
 
     rospy.spin()
 

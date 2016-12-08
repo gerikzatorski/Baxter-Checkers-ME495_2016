@@ -10,6 +10,9 @@
   <node name="search" pkg="checkers" type="search.py" output="screen" />
 
   <!-- Run other launch file  -->
-  <include file="$(find checkers)/launch/checkers.launch" /> 
+  <include file="$(find checkers)/launch/checkers.launch" />
+
+  <!-- Gripper service node  -->
+  <node name="rsdk_gripper_action_server" pkg="baxter_interface" type="gripper_action_server.py" output="screen" launch-prefix="xterm -e" /> 
 
 </launch>
