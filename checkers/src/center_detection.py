@@ -61,7 +61,9 @@ def callback(ros_img):
 
     # Choose the one closest to the center
     highest = 0
-    #best = cont
+    best = None
+    best_cont = None
+
     for cont in pieces_list: 
             rect = cv2.minAreaRect(cont)
             box = cv2.cv.BoxPoints(rect)
@@ -70,21 +72,29 @@ def callback(ros_img):
             center_x, center_y = square_center_calc(box)
             if center_y > highest:
                 best = box
-
-    cv2.drawContours(cv_image,[best],0,(0,0,255),2)            
+                best_cont = cont
+            
+    if best is not None and best_cont is not None:  
+        cv2.drawContours(cv_image,[best],0,(0,0,255),2)            
     
-    # Get center of square
-    center_x, center_y = square_center_calc(best)
-    cv2.circle(cv_image, (center_x, center_y), 5, (0, 255, 255), -1 )
-    
-    # Get orientation of square
-    #(x,y),(MA,ma),angle = cv2.fitEllipse(cont)
+        # Get center of square
+        #center_x, center_y = square_center_calc(best)
+        #cv2.circle(cv_image, (center_x, center_y), 5, (0, 255, 255), -1 )
 
-    # Publish point 
-    P = Point()
-    P.x = center_x-(width)/2
-    P.y = -(center_y - (height/2))
-    pub.publish(P)
+        M = cv2.moments(best_cont)
+        area = M['m00']
+        if area>500:
+		center_x = int(M['m10']/M['m00'])
+		center_y = int(M['m01']/M['m00'])
+    
+        # Get orientation of square
+        #(x,y),(MA,ma),angle = cv2.fitEllipse(cont)
+
+        # Publish point 
+        P = Point()
+        P.x = center_x-(width)/2
+        P.y = -(center_y - (height/2))
+        pub.publish(P)
 
     # Show images on screen
     cv2.imshow("Original Image", cv_image)

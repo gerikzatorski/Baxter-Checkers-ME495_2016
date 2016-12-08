@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import rospy
+import baxter_interface
 from std_msgs.msg import Header, String
 from sensor_msgs.msg import JointState
 from geometry_msgs.msg import (
@@ -9,6 +10,7 @@ from geometry_msgs.msg import (
     Point,
     Quaternion,
 )
+from std_msgs.msg import String,Header,Bool
 
 coord = [] 
 
@@ -16,9 +18,9 @@ def map_fxn(des_pos):
     global coord 
     #Hardcoded Checker Square Positions [position xyz, quaternion xyzw]
     des_pos = str(des_pos)
-    print(des_pos)
+
     col = [des_pos[6], des_pos[10]]
-    print(col)
+
     row = [des_pos[8], des_pos[12]]
      
     for i in range(2):
@@ -71,7 +73,7 @@ def map_fxn(des_pos):
                 goal_config = [0.460597556131,0.215572057988,-0.124597871731, 0.998658511565,-0.00795861100836,-0.00425494800061,-0.0509875789477]
         
         coord.append(goal_config)
-    print(coord)
+
     fromconfig=Pose(
         position=Point(
             x=coord[0][0],
@@ -98,23 +100,68 @@ def map_fxn(des_pos):
             w=coord[1][6],
         ))
 
+    # FIRST Calibrate and open left gripper
+    baxterleft = baxter_interface.Gripper('left')
+    baxterleft.calibrate()
+    baxterleft.open()
     pub.publish(fromconfig)
-    #print(fromconfig)
+
+    # wait for 10 sec
+    rospy.sleep(7)
+
+    # send got_to_position = True flag to Gale's node
+    pub2.publish(True)
+
+    # wait again
+    rospy.sleep(7)
+    pub.publish(toconfig)
+    
+    # wait 
+    rospy.sleep(7)
+
+    drop_config=Pose(
+        position=Point(
+            x=coord[1][0],
+            y=coord[1][1],
+            z=-0.19,
+        ),
+        orientation=Quaternion(
+            x=coord[1][3],
+            y=coord[1][4],
+            z=coord[1][5],
+            w=coord[1][6],
+        ))    
+    pub.publish(drop_config)
+    rospy.sleep(4)
+
+    # RELEASE: open left gripper
+    baxterleft = baxter_interface.Gripper('left')
+    baxterleft.open()
+    rospy.sleep(4)
+
+    # GO HOME
+    home_config=Pose(
+        position=Point(
+            x= 0.464103257539,
+            y= 0.12055341652,
+            z= -0.0435690126601,
+        ),
+        orientation=Quaternion(
+            x= 0.99445654495,
+            y= -0.0873775451764,
+            z= 0.0408183464831,
+            w= -0.0418951953717,
+        ))    
+    pub.publish(home_config)
         
 
 if __name__ == '__main__':
 
-    rospy.loginfo("Searching for goal configuration...")
     rospy.init_node('search')
     sub = rospy.Subscriber('relay', String, map_fxn)
-    pub = rospy.Publisher('/desired_position/pose', Pose, queue_size = 10)   
+    pub = rospy.Publisher('/desired_position/pose', Pose, queue_size = 10)
+    pub2 = rospy.Publisher("got_to_position", Bool, queue_size = 10)   
 
-    #map_fxn("A 3 B 2")
-
-    #while not rospy.is_shutdown():   
-
-        #rospy.sleep(5)
-        #pub.publish(toconfig)
 
     rospy.spin()
 
