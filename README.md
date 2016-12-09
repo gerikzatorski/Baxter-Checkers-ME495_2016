@@ -1,9 +1,12 @@
 # Baxter Checkers Project, ME 495 Fall 2016
-## __Team 2__
-'''Gale Curry
-Stephanie Chang
-Alfonso (Tito) Fernandez
-Gerik Zatorski'''
+## ___Team 2___
+>Gale Curry
+
+>Stephanie Chang
+
+>Alfonso (Tito) Fernandez
+
+>Gerik Zatorski
 
 ##  
 
