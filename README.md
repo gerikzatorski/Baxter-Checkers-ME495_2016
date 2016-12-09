@@ -30,6 +30,9 @@ Input your desired moves when prompted by the terminal.<br>
 Make sure both the square you want to move from and the square you would like to move to are included in the string entered.<br>
 Ex. If you want to move from B2 to A3, stick to this format: B2 A3
 
+Watch a sneak preview of Baxter making a move against a human opponent!
+https://vimeo.com/195051138
+
 ### Workflow Operation
 
   When Baxter plays against a human adversary, the code loops through the following steps:
@@ -45,7 +48,7 @@ Ex. If you want to move from B2 to A3, stick to this format: B2 A3
   6. Because the IK solver node also subscribes to this topic, Baxter will once again attempt to solve for the necessary joint angles and position Baxter's gripper directly over the block, with a finger on either side.
   7. Subsequently, the calc_and_send_pose function will close the gripper, receive the goal point of the block, and trigger the IK solver again to move to the goal square.
   8. Once the desired destination is reached, function calc_and_send_pose will open the gripper to release the block, completing the move. calc_pose will also call a "safety_config" and a "home_config", which will alert Baxter to raise the arm directly above the block, before returning to the home configuration. This safety feature was implemented to prevent the arm from colliding with other pieces on the board.
-  9. Now that Baxter has completed his move he will wait for a new move from the human user, and the entire process is repeated again.
+  9. When Baxter completes a move, he will wait for his opponent to enter his or her response. And the entire process is repeated again.
 
 ### Hardware Components
   1. The [Baxter] robot by rethinkrobotics<br>
@@ -85,7 +88,9 @@ Ex. If you want to move from B2 to A3, stick to this format: B2 A3
 Note, user_interface.launch is the master launch file which starts up all of the nodes.
 
 ### Troubleshooting
--> issues with color recognition. very sensitive to changes in lighting
+Baxter's ability to select and accordingly pick up a particular block highly depends on the ambient lighting in the arena.
+
+issues with color recognition. very sensitive to changes in lighting
 -> grab issues...could've used the stuff jarvis talked about...uh in-built distance sensor. effect of fix may depend on size of object
 
 ### Resulting Performance
