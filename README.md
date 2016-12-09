@@ -21,12 +21,15 @@ The goal of this project was to get a Baxter device to play checkers (a.k.a. dro
 
 The code contained in this repository successfully grants Baxter the ability to autonomously compete against a human rival. A brief summary of how the <b>checkers</b> package works is provided below.
 
-### Materials
-The game is played on a home-made 6x6 checkerboard, with custom pieces. The human pieces are pieces of 1x3 wood painted white, and Baxter's pieces are wooden cubes covered in red painter's tape.
+### Materials and Hardware
+
+### Hardware Components
+
+The game is played on a home-made 6x6 checkerboard, with custom pieces. The human pieces are pieces of 1x3 wood painted white, and Baxter's pieces are wooden cubes covered in red painter's tape. The pieces were originally painted red, but it was more difficult for Baxter's camera to see that particular shade, so we switched to painter's tape.
 
 ![Board](https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/screenshots/CheckerBoard.png)
 
-The board itself is composed of 3"x3" squres. The white pieces are 2.5" square, 3/4" deep, and the red pieces are all 2" cubes. Note that cubes were chosen for Baxter's pieces because they give the gripper a larger surface area to work with.
+The board itself is composed of 3"x3" squares. The white pieces are 2.5" square, 3/4" deep, and the red pieces are all 2" cubes. Note that cubes were chosen for Baxter's pieces because they give the gripper a larger surface area to work with.
 
 ### Node Network
 
@@ -47,6 +50,7 @@ https://vimeo.com/195051138
 ### Workflow Operation
 
 ![Baxter against Allen](https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/screenshots/BaxterandAllen.png)
+
   When Baxter plays against a human adversary, the code loops through the following steps:
 
   1. Human makes a move.
@@ -62,10 +66,7 @@ https://vimeo.com/195051138
   8. Once the desired destination is reached, function calc_and_send_pose will open the gripper to release the block, completing the move. calc_pose will also call a "safety_config" and a "home_config", which will alert Baxter to raise the arm directly above the block, before returning to the home configuration. This safety feature was implemented to prevent the arm from colliding with other pieces on the board.
   9. When Baxter completes a move, he will wait for his opponent to enter his or her response. And the entire process is repeated again.
 
-### Hardware Components
-  1. The [Baxter] robot by rethinkrobotics<br>
-  2. A checker board and sufficiently large playing pieces with known dimensions. Note, A customized board and set of pieces was created for this project.<br>
--> insert picture of board with pieces
+
 
 ### Software Components
 #### Dependencies
