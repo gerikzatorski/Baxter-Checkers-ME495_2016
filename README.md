@@ -1,2 +1,10 @@
-# Baxter-Checkers-ME495_2016
-ME 495 Embedded Systems Final Project, Team 2. Baxter learns the classic game of skill.
+# Baxter Checkers Project, ME 495 Fall 2016
+## __Team 2__
+'''Gale Curry
+Stephanie Chang
+Alfonso (Tito) Fernandez
+Gerik Zatorski'''
+
+##  
+
+Baxter learns the classic game of skill.
