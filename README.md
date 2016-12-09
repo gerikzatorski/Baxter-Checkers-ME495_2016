@@ -26,9 +26,9 @@ To operate Baxter, a series of nodes is required. An interaction map of how the 
 ### How to Run the Demo
 > roslaunch user_interface.launch
 
-  Then input your desired moves when prompted by the terminal.
-  Make sure both the square you want to move from and the square you would like to move to are included in the string entered.
-  Use this format: "B2 A3"
+Input your desired moves when prompted by the terminal.<br>
+Make sure both the square you want to move from and the square you would like to move to are included in the string entered.<br>
+Ex. If you want to move from B2 to A3, stick to this format: B2 A3
 
 ### Workflow Operation
 
@@ -48,8 +48,8 @@ To operate Baxter, a series of nodes is required. An interaction map of how the 
   9. Now that Baxter has completed his move he will wait for a new move from the human user, and the entire process is repeated again.
 
 ### Hardware Components
-  1. The [Baxter] robot by rethinkrobotics
-  2. A checker board and sufficiently large playing pieces with known dimensions. Note, A customized board and set of pieces was created for this project.
+  1. The [Baxter] robot by rethinkrobotics<br>
+  2. A checker board and sufficiently large playing pieces with known dimensions. Note, A customized board and set of pieces was created for this project.<br>
 -> insert picture of board with pieces
 
 ### Software Components
@@ -61,6 +61,8 @@ To operate Baxter, a series of nodes is required. An interaction map of how the 
   [std_msgs]<br>
 
 #### Topics
+
+
 
 
 #### Nodes
