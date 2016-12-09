@@ -54,25 +54,26 @@ To operate Baxter, a series of nodes is required. An interaction map of how the 
 
 ### Software Components
 #### Dependencies
-  [baxter_interface]
-  [cv_bridge]
-  [rospy]
-  [sensor_msgs]
-  [std_msgs]
+  [baxter_interface]<br>
+  [cv_bridge]<br>
+  [rospy]<br>
+  [sensor_msgs]<br>
+  [std_msgs]<br>
 
 #### Topics
 
 
 #### Nodes
-  [checkers_stretch.py]
-  [search.py]
-  [ik_service_client.py]
-  [center_detection.py]
-  [calc_and_send_pose.py]
+  [checkers_stretch.py]<br>
+  [search.py]<br>
+  [ik_service_client.py]<br>
+  [center_detection.py]<br>
+  [calc_and_send_pose.py]<br>
 
 #### Launch Files
-  [checkers.launch]
-  [user_interface.launch]
+  [checkers.launch]<br>
+  [user_interface.launch]<br>
+
 Note, user_interface.launch is the master launch file which starts up all of the nodes.
 
 ### Troubleshooting
