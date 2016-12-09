@@ -34,6 +34,13 @@ To operate Baxter, a series of nodes is required. An interaction map of how the 
 
 ![Interaction Map](https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/screenshots/FinalProjectFlow.png)
 
+### How to Run the Demo
+> roslaunch user_interface.launch
+
+Input your desired moves when prompted by the terminal.<br>
+Make sure both the square you want to move from and the square you would like to move to are included in the string entered.<br>
+Ex. If you want to move from B2 to A3, stick to this format: B2 A3
+
 ### Workflow Operation
 
 ![Baxter against Allen](https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/screenshots/BaxterandAllen.png)
@@ -50,26 +57,53 @@ To operate Baxter, a series of nodes is required. An interaction map of how the 
   6. Because the IK solver node also subscribes to this topic, Baxter will once again attempt to solve for the necessary joint angles and position Baxter's gripper directly over the block, with a finger on either side.
   7. Subsequently, the calc_and_send_pose function will close the gripper, receive the goal point of the block, and trigger the IK solver again to move to the goal square.
   8. Once the desired destination is reached, function calc_and_send_pose will open the gripper to release the block, completing the move. calc_pose will also call a "safety_config" and a "home_config", which will alert Baxter to raise the arm directly above the block, before returning to the home configuration. This safety feature was implemented to prevent the arm from colliding with other pieces on the board.
-  9. Now that Baxter has completed his move he will wait for a new move from the human user, and the entire process is repeated again.
+  9. When Baxter completes a move, he will wait for his opponent to enter his or her response. And the entire process is repeated again.
+
+### Hardware Components
+  1. The [Baxter] robot by rethinkrobotics<br>
+  2. A checker board and sufficiently large playing pieces with known dimensions. Note, A customized board and set of pieces was created for this project.<br>
+-> insert picture of board with pieces
 
 ### Software Components
-
 #### Dependencies
-    [baxter_interface]
-    [cv_bridge]
-    [rospy]
-    [sensor_msgs]
-    [std_msgs]
+  [baxter_interface]<br>
+  [cv_bridge]<br>
+  [rospy]<br>
+  [sensor_msgs]<br>
+  [std_msgs]<br>
 
 #### Topics
+  Listed using the following format: 'Name', Type
 
+    '/keys', String
+    '/relay', String
+    '/desired_position/pose', Pose
+    '/got_to_position', Bool
+    '/cameras/left_hand_camera/image', Image
+    '/center_of_piece', Point
+    '/robot/limb/left/endpoint_state', EndpointState
 
 #### Nodes
+  [checkers_stretch.py]<br>
+  [search.py]<br>
+  [ik_service_client.py]<br>
+  [center_detection.py]<br>
+  [calc_and_send_pose.py]<br>
 
 #### Launch Files
+
 To run the program, the user needs merely to type:
     [roslaunch checkers user_interface.launch]
 This will run all nodes, getting Baxter ready to play. The user will see the camera image, an image showing where Baxter sees red, an output terminal from the IK solver indicating whether or not valid solutions were found, and a main terminal where the user inputs the human moves.
+
+  [user_interface.launch]<br>
+
+Note, user_interface.launch is the master launch file which starts up all of the nodes.
+
+### Troubleshooting
+-> issues with color recognition. very sensitive to changes in lighting
+-> grab issues...could've used the stuff jarvis talked about...uh in-built distance sensor. effect of fix may depend on size of object
+>>>>>>> checkers/master
 
 ### Resulting Performance
 Overall,
@@ -77,8 +111,16 @@ Overall,
 
 ### Concluding Remarks
 
+[Baxter]: http://www.rethinkrobotics.com/baxter/
 [baxter_interface]: http://sdk.rethinkrobotics.com/wiki/Baxter_Interface
 [cv_bridge]: http://wiki.ros.org/cv_bridge
 [rospy]: http://wiki.ros.org/rospy
 [sensor_msgs]: http://wiki.ros.org/sensor_msgs
 [std_msgs]: http://wiki.ros.org/std_msgs
+[checkers_stretch.py]: https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/src/checkers.py
+[search.py]: https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/src/search.py
+[ik_service_client.py]: https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/src/ik_service_client.py
+[center_detection.py]: https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/src/center_detection.py
+[calc_and_send_pose.py]: https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/src/calc_and_send_pose.py
+[checkers.launch]: https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/launch/checkers.launch
+[user_interface.launch]: https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/launch/user_interface.launch
