@@ -40,10 +40,17 @@ To operate Baxter, a series of nodes is required. The interaction map of how the
 ### Software Components
 
 #### Dependencies
+    baxter_interface
+    cv_bridge
+    rospy
+    sensor_msgs
+    std_msgs
 
 #### Topics
 
 #### Nodes
+
+#### Launch Files
 
 ### Resulting Performance
 
