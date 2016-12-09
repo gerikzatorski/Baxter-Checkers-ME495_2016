@@ -13,11 +13,13 @@
 
 ### Introduction
 
-The goal of this project was to get a Baxter device to play checkers (a.k.a. droughts) against a human opponent. Using a combination of inverse kinematics, camera detection, and proportional control, Baxter is successful in autonomously competing with a human rival.
+The goal of this project was to get a Baxter device to play checkers (a.k.a. droughts) against a human opponent. To achieve this, a combination of inverse kinematics, camera detection, and proportional control was implemented.
 
-### Overview
+The code contained in this repository successfully grants Baxter the ability to autonomously compete against a human rival. A brief summary of how the <b>checkers</b> package works is provided below.
 
-A series of nodes are necessary to get Baxter to operate. The interaction map can be seen below:
+### Package Overview
+
+To operate Baxter, a series of nodes is required. The interaction map of how the nodes in our package interact is shown below:
 
 ![Interaction Map](https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/screenshots/FinalProjectFlow.png)
 
@@ -32,4 +34,5 @@ In words, the process is as follows:
   7. The calc_and_send_pose function now closes the gripper, receives the goal point of the block , and triggers the IK solver again to move to the goal square.
   8. Once at the new position, the calc_and_send_pose function opens the gripper to release the block, completing the move. The calc_pose function again calls a "safety_config" and a "home_config", raising the arm directly above the block to avoid collisions and then returning to the home configuration.
   9. Baxter has now completed his move and awaits a new move from the human user.
-  
+
+
