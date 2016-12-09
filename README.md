@@ -41,6 +41,9 @@ Input your desired moves when prompted by the terminal.<br>
 Make sure both the square you want to move from and the square you would like to move to are included in the string entered.<br>
 Ex. If you want to move from B2 to A3, stick to this format: B2 A3
 
+Watch a sneak preview of Baxter making a move against a human opponent!
+https://vimeo.com/195051138
+
 ### Workflow Operation
 
 ![Baxter against Allen](https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/screenshots/BaxterandAllen.png)
@@ -101,7 +104,9 @@ This will run all nodes, getting Baxter ready to play. The user will see the cam
 Note, user_interface.launch is the master launch file which starts up all of the nodes.
 
 ### Troubleshooting
--> issues with color recognition. very sensitive to changes in lighting
+Baxter's ability to select and accordingly pick up a particular block highly depends on the ambient lighting in the arena.
+
+issues with color recognition. very sensitive to changes in lighting
 -> grab issues...could've used the stuff jarvis talked about...uh in-built distance sensor. effect of fix may depend on size of object
 >>>>>>> checkers/master
 
