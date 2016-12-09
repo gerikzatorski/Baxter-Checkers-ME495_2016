@@ -61,9 +61,15 @@ Ex. If you want to move from B2 to A3, stick to this format: B2 A3
   [std_msgs]<br>
 
 #### Topics
+  Listed using the following format: 'Name', Type
 
-
-
+    '/keys', String
+    '/relay', String
+    '/desired_position/pose', Pose
+    '/got_to_position', Bool
+    '/cameras/left_hand_camera/image', Image
+    '/center_of_piece', Point
+    '/robot/limb/left/endpoint_state', EndpointState
 
 #### Nodes
   [checkers_stretch.py]<br>
