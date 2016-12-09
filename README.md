@@ -19,38 +19,44 @@ The code contained in this repository successfully grants Baxter the ability to 
 
 ### Node Network
 
-To operate Baxter, a series of nodes is required. The interaction map of how the nodes in our package interact is shown below:
+To operate Baxter, a series of nodes is required. An interaction map of how the nodes in our package interact is shown below:
 
 ![Interaction Map](https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/screenshots/FinalProjectFlow.png)
 
 ### Workflow Operation
 
-  With a human adversary, the nodes work together as follows:
+  When Baxter plays against a human adversary, the code loops through the following steps:
 
-  1. Human makes a move, the move is inputted into the checkers_stretch node to allow Baxter to update the current state of the board (ex. "B2 A3").
-  2. Baxter runs through the logic of the in-built checkers engine to decide what his next move should be. He outputs the result as a string to the search node (ex. "E5 F4").
-  3. The search node translates the string into one of 18 hard-coded joint poses, represented by an end effector point and a quaternion. The search node then publishes a Pose() message with the appropriate (point, quaternion) combination to the '/desired_position/pose' topic.
-  4. The ik_service_client subscribes to the Pose message published by the search node, and tries to find a solution to the IK problem. If a solution is found, the arm moves to that position via "set_joint_positions".
-  5. Once the end effector arrives at the calculated location, the center_detection node reads all the red in the left limb camera and attempts to calculate the centroid of the red region closest to the center of the camera view. It then passes this centroid data to the calc_and_send_pose node, which, as the name implies, calculates the proportional control needed to adjust the (x,y) positions of the end effector, then publishes a Pose() to the **blah** topic.
-  6. Since the IK solver is subscribing to this topic, it now attempts to solve and move to the new position, which will position Baxter's gripper directly over the block, with a finger on either side.
-  7. The calc_and_send_pose function now closes the gripper, receives the goal point of the block , and triggers the IK solver again to move to the goal square.
-  8. Once at the new position, the calc_and_send_pose function opens the gripper to release the block, completing the move. The calc_pose function again calls a "safety_config" and a "home_config", raising the arm directly above the block to avoid collisions and then returning to the home configuration.
-  9. Baxter has now completed his move and awaits a new move from the human user.
+  1. Human makes a move.
+  All moves by the human opponent must be manually entered into the checkers_stretch node to allow Baxter to update the current state of the board (ex. "B2 A3").
+  2. Baxter runs through the logic of the in-built checkers engine.
+  Once the robot has decided what its next move will be, a string containing the coordinates of a piece's loation and its desired destination is published topic 'relay'. (ex. "E5 F4").
+  3. The search node - which subscribes to 'relay' - translates the string into one of 18 hard-coded joint poses.
+  Each pose is represented by an end effector point and a quaternion. After parsing the string, the cooresponding Pose() message with the appropriate (point, quaternion) combination is published to the '/desired_position/pose' topic.
+  4. The ik_service_client subscribes to the Pose message published by the search node, and tries to find a solution to the IK problem. If a solution is found, the arm will subsequently move to that position via "set_joint_positions".
+  5. Once the end effector arrives at the calculated location, the center_detection node will read all red objects captured by the camer in the left limb and attempt to calculate the centroid of the red region closest to the center of the camera view. Next, the node will pass this centroid data to the calc_and_send_pose node, which calculates the proportional control needed to adjust the (x,y) positions of the end effector. The obtained coordinates are then published as a Pose() to the 'center_of_piece' topic.
+  6. Because the IK solver node also subscribes to this topic, Baxter will once again attempt to solve for the necessary joint angles and position Baxter's gripper directly over the block, with a finger on either side.
+  7. Subsequently, the calc_and_send_pose function will close the gripper, receive the goal point of the block, and trigger the IK solver again to move to the goal square.
+  8. Once the desired destination is reached, function calc_and_send_pose will open the gripper to release the block, completing the move. calc_pose will also call a "safety_config" and a "home_config", which will alert Baxter to raise the arm directly above the block, before returning to the home configuration. This safety feature was implemented to prevent the arm from colliding with other pieces on the board.
+  9. Now that Baxter has completed his move he will wait for a new move from the human user, and the entire process is repeated again.
 
 ### Software Components
 
 #### Dependencies
-    baxter_interface
-    cv_bridge
-    rospy
-    sensor_msgs
-    std_msgs
+    [baxter_interface]
+    [cv_bridge]
+    [rospy]
+    [sensor_msgs]
+    [std_msgs]
 
 #### Topics
+
 
 #### Nodes
 
 #### Launch Files
+    checkers.launch
+    user_interface.launch
 
 ### Resulting Performance
 
@@ -58,3 +64,8 @@ To operate Baxter, a series of nodes is required. The interaction map of how the
 
 ### Concluding Remarks
 
+[baxter_interface]: http://sdk.rethinkrobotics.com/wiki/Baxter_Interface
+[cv_bridge]: http://wiki.ros.org/cv_bridge
+[rospy]: http://wiki.ros.org/rospy
+[sensor_msgs]: http://wiki.ros.org/sensor_msgs
+[std_msgs]: http://wiki.ros.org/std_msgs
