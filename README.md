@@ -23,6 +23,13 @@ To operate Baxter, a series of nodes is required. An interaction map of how the 
 
 ![Interaction Map](https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/screenshots/FinalProjectFlow.png)
 
+### How to Run the Demo
+> roslaunch user_interface.launch
+
+Then input your desired moves when prompted by the terminal.
+Make sure both the square you want to move from and the square you would like to move to are included in the string entered.
+Use this format: "B2 A3"
+
 ### Workflow Operation
 
   When Baxter plays against a human adversary, the code loops through the following steps:
@@ -40,8 +47,12 @@ To operate Baxter, a series of nodes is required. An interaction map of how the 
   8. Once the desired destination is reached, function calc_and_send_pose will open the gripper to release the block, completing the move. calc_pose will also call a "safety_config" and a "home_config", which will alert Baxter to raise the arm directly above the block, before returning to the home configuration. This safety feature was implemented to prevent the arm from colliding with other pieces on the board.
   9. Now that Baxter has completed his move he will wait for a new move from the human user, and the entire process is repeated again.
 
-### Software Components
+### Hardware Components
+The [Baxter] robot by rethinkrobotics
+-> Insert picture of baxter?
+-> insert picture of board with pieces
 
+### Software Components
 #### Dependencies
     [baxter_interface]
     [cv_bridge]
@@ -53,10 +64,19 @@ To operate Baxter, a series of nodes is required. An interaction map of how the 
 
 
 #### Nodes
+    checkers_stretch.py
+    search.py
+    ik_service_client.py
+    center_detection.py
+    calc_and_send_pose.py
 
 #### Launch Files
     checkers.launch
     user_interface.launch
+
+### Troubleshooting
+-> issues with color recognition. very sensitive to changes in lighting
+-> grab issues...could've used the stuff jarvis talked about...uh in-built distance sensor. effect of fix may depend on size of object
 
 ### Resulting Performance
 
@@ -64,6 +84,7 @@ To operate Baxter, a series of nodes is required. An interaction map of how the 
 
 ### Concluding Remarks
 
+[Baxter]: http://www.rethinkrobotics.com/baxter/
 [baxter_interface]: http://sdk.rethinkrobotics.com/wiki/Baxter_Interface
 [cv_bridge]: http://wiki.ros.org/cv_bridge
 [rospy]: http://wiki.ros.org/rospy
