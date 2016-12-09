@@ -26,9 +26,9 @@ To operate Baxter, a series of nodes is required. An interaction map of how the 
 ### How to Run the Demo
 > roslaunch user_interface.launch
 
-Then input your desired moves when prompted by the terminal.
-Make sure both the square you want to move from and the square you would like to move to are included in the string entered.
-Use this format: "B2 A3"
+  Then input your desired moves when prompted by the terminal.
+  Make sure both the square you want to move from and the square you would like to move to are included in the string entered.
+  Use this format: "B2 A3"
 
 ### Workflow Operation
 
@@ -48,31 +48,32 @@ Use this format: "B2 A3"
   9. Now that Baxter has completed his move he will wait for a new move from the human user, and the entire process is repeated again.
 
 ### Hardware Components
-The [Baxter] robot by rethinkrobotics
--> Insert picture of baxter?
+  1. The [Baxter] robot by rethinkrobotics
+  2. A checker board and sufficiently large playing pieces with known dimensions. Note, A customized board and set of pieces was created for this project.
 -> insert picture of board with pieces
 
 ### Software Components
 #### Dependencies
-    [baxter_interface]
-    [cv_bridge]
-    [rospy]
-    [sensor_msgs]
-    [std_msgs]
+  [baxter_interface]
+  [cv_bridge]
+  [rospy]
+  [sensor_msgs]
+  [std_msgs]
 
 #### Topics
 
 
 #### Nodes
-    checkers_stretch.py
-    search.py
-    ik_service_client.py
-    center_detection.py
-    calc_and_send_pose.py
+  [checkers_stretch.py]
+  [search.py]
+  [ik_service_client.py]
+  [center_detection.py]
+  [calc_and_send_pose.py]
 
 #### Launch Files
-    checkers.launch
-    user_interface.launch
+  [checkers.launch]
+  [user_interface.launch]
+Note, user_interface.launch is the master launch file which starts up all of the nodes.
 
 ### Troubleshooting
 -> issues with color recognition. very sensitive to changes in lighting
@@ -90,3 +91,10 @@ The [Baxter] robot by rethinkrobotics
 [rospy]: http://wiki.ros.org/rospy
 [sensor_msgs]: http://wiki.ros.org/sensor_msgs
 [std_msgs]: http://wiki.ros.org/std_msgs
+[checkers_stretch.py]: https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/src/checkers.py
+[search.py]: https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/src/search.py
+[ik_service_client.py]: https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/src/ik_service_client.py
+[center_detection.py]: https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/src/center_detection.py
+[calc_and_send_pose.py]: https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/src/calc_and_send_pose.py
+[checkers.launch]: https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/launch/checkers.launch
+[user_interface.launch]: https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/launch/user_interface.launch
