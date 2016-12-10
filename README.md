@@ -22,7 +22,8 @@ Input your desired moves when prompted by the terminal.<br>
 Make sure both the square you want to move from and the square you would like to move to are included in the string entered.<br>
 Ex. If you want to move from B2 to A3, stick to this format: B2 A3
 
-Watch a sneak preview of Baxter making a move against a human opponent!
+Click on the picture to watch a sneak preview of Baxter making a move against a human opponent!
+
 [![Screenshot](https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/screenshots/BaxterScreenshot.png)](https://vimeo.com/195051138)
 
 ### Node Network
@@ -33,7 +34,7 @@ To operate Baxter, a series of nodes is required. An interaction map of how the 
 
 ### Workflow Operation
 
-![Baxter against Allen](https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/screenshots/BaxterandAllen.png)
+![Baxter against Alan](https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/screenshots/BaxterandAllen.png)
 
   When Baxter plays against a human adversary, the code loops through the following steps:
 
@@ -96,7 +97,12 @@ This will run all nodes, getting Baxter ready to play. The user will see the cam
 ###Performance
 Baxter's newly discovered proficiency at playing checkers is the product of a harmonious marriage between the checkers logic and image recognition scripts. While [checkers_stretch.py] shoulders the bulk of the "intelligence" needed for Baxter to follow the rules of checkers, recognize kinging, and execute double jump moves, [center_detection.py] is what helps the robot target specific pieces to move.
 
+Click the picture to see Baxter square off against MSR student Alan Hong:
+
+[![Screenshot2](https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/screenshots/FullMovieTitle.png)]
+
 #### Checkers Logic
+
 -> Gerik, please briefly summarize how your logic works
   The [checkers_stretch.py] node
 
