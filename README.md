@@ -1,5 +1,5 @@
-# Baxter Checkers, ME 495 Fall 2016
-## Baxter the Robot learns the classic game of skill.
+# ME 495 Final Project (Fall 2016)
+## RoboCheckers: Baxter learns the classic game of skill.
 -------------------------------------------
 ![Team Shot](https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/screenshots/CheckersTeam.png)
 
@@ -121,7 +121,7 @@ Baxter's ability to select and accordingly pick up a particular block highly dep
 
 Currently, our code only makes use of Baxter's left arm to manipulate objects. As a result, there are positions on the board where the ik_service_client has difficulty finding solutions. To improve Baxter's reach and mobility, the right arm could be enabled when goal positions are on the right hand side of the board. In addition, path planning a series of sequential positions from start to end pose would help the IK solver find solutions. Adding some noise to the initial position and iteratively calling the solver are also possible solutions to help Baxter reach the unreachable tiles on the board.
 
-To refine the method with which Baxter grabs blocks, the distance sensors built into the arms could also be used.
+To refine the method with which Baxter grabs blocks, the distance sensors built into the arms could also be used. Also, at the moment Baxter plans his motion once from the hardcoded position above the board to the position atop the block. To make it more likely for the gripper to get the block, the program could iteratively plan and correct the path a few times as the gripper goes down.
 
 ### Concluding Remarks
 This package was created for Professor Jarvis Schultz's ME 495 introductory course to ROS. It is the cumulative result of a quarter's worth of learning.
