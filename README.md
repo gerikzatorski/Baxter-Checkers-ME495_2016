@@ -89,28 +89,31 @@ The board itself is composed of 3"x3" squares. The white pieces are 2.5" square,
 
 #### Launch Files
 
-To run the program, the user needs merely to type:
-    [roslaunch checkers user_interface.launch]
-This will run all nodes, getting Baxter ready to play. The user will see the camera image, an image showing where Baxter sees red, an output terminal from the IK solver indicating whether or not valid solutions were found, and a main terminal where the user inputs the human moves.
-
   [user_interface.launch]<br>
 
-Note, user_interface.launch is the master launch file which starts up all of the nodes.
+As mentioned above, to run the program, the user needs merely to type:
+> roslaunch checkers user_interface.launch
 
-### Troubleshooting
-Baxter's ability to select and accordingly pick up a particular block highly depends on the ambient lighting in the arena. There are also positions on the board which are more difficult to reach. Currently our code only makes use of Baxter's left hand to manipulate objects.
-
--> grab issues...could've used the stuff jarvis talked about...uh in-built distance sensor. effect of fix may depend on size of object
->>>>>>> checkers/master
+This will run all nodes, getting Baxter ready to play. The user will see the camera image, an image showing where Baxter sees red, an output terminal from the IK solver indicating whether or not valid solutions were found, and a main terminal where the user inputs the human moves.
 
 ### Resulting Performance
 Overall,
 
-### Future Direction
+### Troubleshooting & Future Direction
+Baxter's ability to select and accordingly pick up a particular block highly depends on the ambient lighting in the arena.
+-> talk about which values we tried to modify and why?
 
+There are also positions on the board which the ik_service_client has difficulty finding solutions for. This may be due to the fact that our code only makes use of Baxter's left arm to manipulate objects. To improve Baxter's reach and mobility, the right arm could be actived when joint angles cannot be found for the left arm.
+
+-> grab issues...could've used the stuff jarvis talked about...uh in-built distance sensor. effect of fix may depend on size of object
+>>>>>>> checkers/master
 
 ### Concluding Remarks
+This package was created for Professor Jarvis Schultz's ME 495 introductory course to ROS. It is the cumulative result of a quarter's worth of learning.
 
+While the class may now be over, our group plans on integrating more improvements so Baxter can one day be as prolific as Chinook, the machine which beat Checkers Grandmaster Marion Tinsley.
+
+Last edited: December 9, 2016
 
 [Baxter]: http://www.rethinkrobotics.com/baxter/
 [baxter_interface]: http://sdk.rethinkrobotics.com/wiki/Baxter_Interface
