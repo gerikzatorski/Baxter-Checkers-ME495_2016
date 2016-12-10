@@ -5,7 +5,8 @@
 
 ## Team 2
 -------------------------------------------
->Gale Curry | Stephanie Chang | Alfonso (Tito) Fernandez | Gerik Zatorski
+[Gale Curry] | [Stephanie Chang]
+[Alfonso (Tito) Fernandez] | [Gerik Zatorski]
 
 ### Introduction
 
@@ -122,14 +123,17 @@ Currently, our code only makes use of Baxter's left arm to manipulate objects. A
 
 To refine the method with which Baxter grabs blocks, the distance sensors built into the arms could also be used.
 
-
-
 ### Concluding Remarks
 This package was created for Professor Jarvis Schultz's ME 495 introductory course to ROS. It is the cumulative result of a quarter's worth of learning.
 
 While the class may now be over, our group plans on integrating more improvements so Baxter can one day be as proficient as Chinook, the machine which beat Checkers Grandmaster Marion Tinsley. Maybe.
 
 Last edited: December 9, 2016
+
+[Gale Curry]: https://github.com/gcurry730
+[Stephanie Chang]: https://github.com/stephanniec
+[Alfonso (Tito) Fernandez]: https://github.com/enginerd887
+[Gerik Zatorski]: https://github.com/gerikzatorski
 
 [Baxter]: http://www.rethinkrobotics.com/baxter/
 [baxter_interface]: http://sdk.rethinkrobotics.com/wiki/Baxter_Interface
