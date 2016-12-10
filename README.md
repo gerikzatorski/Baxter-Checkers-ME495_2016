@@ -117,7 +117,7 @@ The end result is that Baxter is guaranteed to take a capture if one is present.
 Baxter's ability to select and accordingly pick up a particular block highly depends on the ambient lighting in the arena. This is because our package relies on color recognition (RED!) coupled with contour area estimation to single out potential objects to move. During testing, slight variations in how bright or dark different red objects also impacted the accuracy of the color filter. More vibrant shades were received favorably. To fix this issue,
 -> talk about which values we tried to modify and why?
 
-Currently, our code only makes use of Baxter's left arm to manipulate objects. As a result, there are positions on the board which the ik_service_client has difficulty finding solutions for. To improve Baxter's reach and mobility, the right arm could be enabled when goal positions are on the right hand side of the board.
+Currently, our code only makes use of Baxter's left arm to manipulate objects. As a result, there are positions on the board which the ik_service_client has difficulty finding solutions for. To improve Baxter's reach and mobility, the right arm could be enabled when goal positions are on the right hand side of the board. In addition, path planning a series of sequential positions from start to end pose would help the IK solver find solutions. Adding some noise to the initial position and iteratively calling the solver are also possible solutions to help Baxter reach the unreachable tiles on the board.
 
 To refine the method with which Baxter grabs blocks, the distance sensors built into the arms could also be used.
 
