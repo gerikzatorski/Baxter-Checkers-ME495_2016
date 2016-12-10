@@ -23,7 +23,7 @@ Make sure both the square you want to move from and the square you would like to
 Ex. If you want to move from B2 to A3, stick to this format: B2 A3
 
 Watch a sneak preview of Baxter making a move against a human opponent!
-https://vimeo.com/195051138
+[![Screenshot](https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/screenshots/BaxterScreenshot.png)](https://vimeo.com/195051138)
 
 ### Node Network
 
@@ -107,12 +107,11 @@ Baxter's newly discovered proficiency at playing checkers is the product of a ha
 Baxter's ability to select and accordingly pick up a particular block highly depends on the ambient lighting in the arena. This is because our package relies on color recognition (RED!) coupled with contour area estimation to single out potential objects to move. During testing, slight variations in how bright or dark different red objects also impacted the accuracy of the color filter. More vibrant shades were received favorably. To fix this issue,
 -> talk about which values we tried to modify and why?
 
-Currently, our code only makes use of Baxter's left arm to manipulate objects. As a result, there are positions on the board which the ik_service_client has difficulty finding solutions for. To improve Baxter's reach and mobility, the right arm could be enabled when joint angles cannot be found for the left arm.
+Currently, our code only makes use of Baxter's left arm to manipulate objects. As a result, there are positions on the board which the ik_service_client has difficulty finding solutions for. To improve Baxter's reach and mobility, the right arm could be enabled when goal positions are on the right hand side of the board.
 
-To refine the method with which Baxter grabs blocks, the distance sensors built into the arms could be used.
+To refine the method with which Baxter grabs blocks, the distance sensors built into the arms could also be used.
 
--> grab issues...could've used the stuff jarvis talked about...uh in-built distance sensor. effect of fix may depend on size of object
->>>>>>> checkers/master
+
 
 ### Concluding Remarks
 This package was created for Professor Jarvis Schultz's ME 495 introductory course to ROS. It is the cumulative result of a quarter's worth of learning.
