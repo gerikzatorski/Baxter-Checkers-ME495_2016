@@ -5,9 +5,13 @@
 
 ## Team 2
 -------------------------------------------
+
 [Gale Curry]
+
 [Stephanie Chang]
+
 [Alfonso (Tito) Fernandez]
+
 [Gerik Zatorski]
 
 ### Introduction
