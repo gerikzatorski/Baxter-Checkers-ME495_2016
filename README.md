@@ -6,11 +6,8 @@
 ## Team 2
 -------------------------------------------
 >Gale Curry
-
 >Stephanie Chang
-
 >Alfonso (Tito) Fernandez
-
 >Gerik Zatorski
 
 ### Introduction
@@ -19,23 +16,7 @@ The goal of this project was to get a Baxter device to play checkers (a.k.a. dro
 
 ![Baxter Ready](https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/screenshots/BaxterCheckersReady.JPG)
 
-The code contained in this repository successfully grants Baxter the ability to autonomously compete against a human rival. A brief summary of how the <b>checkers</b> package works is provided below.
-
-### Materials and Hardware
-
-### Hardware Components
-
-The game is played on a home-made 6x6 checkerboard, with custom pieces. The human pieces are pieces of 1x3 wood painted white, and Baxter's pieces are wooden cubes covered in red painter's tape. The pieces were originally painted red, but it was more difficult for Baxter's camera to see that particular shade, so we switched to painter's tape.
-
-![Board](https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/screenshots/CheckerBoard.png)
-
-The board itself is composed of 3"x3" squares. The white pieces are 2.5" square, 3/4" deep, and the red pieces are all 2" cubes. Note that cubes were chosen for Baxter's pieces because they give the gripper a larger surface area to work with.
-
-### Node Network
-
-To operate Baxter, a series of nodes is required. An interaction map of how the nodes in our package interact is shown below:
-
-![Interaction Map](https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/screenshots/FinalProjectFlow.png)
+The code contained in this repository successfully grants Baxter the ability to autonomously compete against a human rival.
 
 ### How to Run the Demo
 > roslaunch user_interface.launch
@@ -46,6 +27,12 @@ Ex. If you want to move from B2 to A3, stick to this format: B2 A3
 
 Watch a sneak preview of Baxter making a move against a human opponent!
 https://vimeo.com/195051138
+
+### Node Network
+
+To operate Baxter, a series of nodes is required. An interaction map of how the nodes in our package interact is shown below:
+
+![Interaction Map](https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/screenshots/FinalProjectFlow.png)
 
 ### Workflow Operation
 
@@ -66,7 +53,13 @@ https://vimeo.com/195051138
   8. Once the desired destination is reached, function calc_and_send_pose will open the gripper to release the block, completing the move. calc_pose will also call a "safety_config" and a "home_config", which will alert Baxter to raise the arm directly above the block, before returning to the home configuration. This safety feature was implemented to prevent the arm from colliding with other pieces on the board.
   9. When Baxter completes a move, he will wait for his opponent to enter his or her response. And the entire process is repeated again.
 
+### Hardware Components
 
+The game is played on a home-made 6x6 checkerboard, with custom pieces. The human pieces are pieces of 1x3 wood painted white, and Baxter's pieces are wooden cubes covered in red painter's tape. The pieces were originally painted red, but it was more difficult for Baxter's camera to see that particular shade, so we switched to painter's tape.
+
+![Board](https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/screenshots/CheckerBoard.png)
+
+The board itself is composed of 3"x3" squares. The white pieces are 2.5" square, 3/4" deep, and the red pieces are all 2" cubes. Note that cubes were chosen for Baxter's pieces because they give the gripper a larger surface area to work with.
 
 ### Software Components
 #### Dependencies
@@ -105,17 +98,19 @@ This will run all nodes, getting Baxter ready to play. The user will see the cam
 Note, user_interface.launch is the master launch file which starts up all of the nodes.
 
 ### Troubleshooting
-Baxter's ability to select and accordingly pick up a particular block highly depends on the ambient lighting in the arena.
+Baxter's ability to select and accordingly pick up a particular block highly depends on the ambient lighting in the arena. There are also positions on the board which are more difficult to reach. Currently our code only makes use of Baxter's left hand to manipulate objects.
 
-issues with color recognition. very sensitive to changes in lighting
 -> grab issues...could've used the stuff jarvis talked about...uh in-built distance sensor. effect of fix may depend on size of object
 >>>>>>> checkers/master
 
 ### Resulting Performance
 Overall,
+
 ### Future Direction
 
+
 ### Concluding Remarks
+
 
 [Baxter]: http://www.rethinkrobotics.com/baxter/
 [baxter_interface]: http://sdk.rethinkrobotics.com/wiki/Baxter_Interface
