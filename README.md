@@ -1,5 +1,5 @@
-# Baxter Checkers, ME 495 Fall 2016
-## Baxter the Robot learns the classic game of skill.
+# ME 495 Final Project (Fall 2016)
+## RoboCheckers: Baxter learns the classic game of skill.
 -------------------------------------------
 ![Team Shot](https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/screenshots/CheckersTeam.png)
 
