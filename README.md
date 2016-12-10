@@ -5,10 +5,7 @@
 
 ## Team 2
 -------------------------------------------
->Gale Curry
->Stephanie Chang
->Alfonso (Tito) Fernandez
->Gerik Zatorski
+>Gale Curry | Stephanie Chang | Alfonso (Tito) Fernandez |Gerik Zatorski
 
 ### Introduction
 
@@ -96,14 +93,23 @@ As mentioned above, to run the program, the user needs merely to type:
 
 This will run all nodes, getting Baxter ready to play. The user will see the camera image, an image showing where Baxter sees red, an output terminal from the IK solver indicating whether or not valid solutions were found, and a main terminal where the user inputs the human moves.
 
-### Resulting Performance
-Overall,
+###Performance
+Baxter's newly discovered proficiency at playing checkers is the product of a harmonious marriage between the checkers logic and image recognition scripts. While [checkers_stretch.py] shoulders the bulk of the "intelligence" needed for Baxter to follow the rules of checkers, recognize kinging, and double jump moves, [center_detection.py] is what helps the robot target specific pieces to move.
+
+#### Checkers Logic
+-> Gerik, please briefly summarize how your logic works
+  The [checkers_stretch.py] node
+
+#### Image Recognition
+-> Gale's nodes
 
 ### Troubleshooting & Future Direction
 Baxter's ability to select and accordingly pick up a particular block highly depends on the ambient lighting in the arena.
 -> talk about which values we tried to modify and why?
 
-There are also positions on the board which the ik_service_client has difficulty finding solutions for. This may be due to the fact that our code only makes use of Baxter's left arm to manipulate objects. To improve Baxter's reach and mobility, the right arm could be actived when joint angles cannot be found for the left arm.
+Currently, our code only makes use of Baxter's left arm to manipulate objects. As a result, there are positions on the board which the ik_service_client has difficulty finding solutions for. To improve Baxter's reach and mobility, the right arm could be enabled when joint angles cannot be found for the left arm.
+
+To refine the method with which Baxter grabs blocks, the distance sensors built into the arms could be used.
 
 -> grab issues...could've used the stuff jarvis talked about...uh in-built distance sensor. effect of fix may depend on size of object
 >>>>>>> checkers/master
@@ -111,7 +117,7 @@ There are also positions on the board which the ik_service_client has difficulty
 ### Concluding Remarks
 This package was created for Professor Jarvis Schultz's ME 495 introductory course to ROS. It is the cumulative result of a quarter's worth of learning.
 
-While the class may now be over, our group plans on integrating more improvements so Baxter can one day be as prolific as Chinook, the machine which beat Checkers Grandmaster Marion Tinsley.
+While the class may now be over, our group plans on integrating more improvements so Baxter can one day be as prolific as Chinook, the machine which beat Checkers Grandmaster Marion Tinsley. Maybe.
 
 Last edited: December 9, 2016
 
