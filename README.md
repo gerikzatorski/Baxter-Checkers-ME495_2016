@@ -99,12 +99,16 @@ Baxter's newly discovered proficiency at playing checkers is the product of a ha
 
 Click the picture to see Baxter square off against MSR student Alan Hong:
 
-[![Screenshot2](https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/screenshots/FullMovieTitle.png)]
+[![Screenshot2](https://github.com/enginerd887/Baxter-Checkers-ME495_2016/blob/master/checkers/screenshots/FullMovieTitle.png)](https://vimeo.com/195063628)
 
 #### Checkers Logic
+Originally, the checkers logic was performed by [checkers.py], a home-made checkers engine which did not include more advanced concepts such as kinging and double capture. This was eventually updated to produce [checkers_stretch.py], which implements a full checkers engine, developed by our team.
 
--> Gerik, please briefly summarize how your logic works
-  The [checkers_stretch.py] node
+In the [checkers_stretch.py] code, several enum-like structures are defined to help the robot know what is happening in the game. For example, the *GameState* class defines the current point in the game (is it red's turn, white's turn, etc.),and the *TileState* determines whether a given square is empty, contains a red or white piece, contains a red or white king, or is not a valid place to be on the board. It then defines a *CheckersGame* class, a *CheckersBoard* class, and a *Tile* class to define the checkers environment in the robot's mind, and implements a series of error checks to make sure that both the human and the robot only choose valid moves.
+
+To choose a move, Baxter checks the current state of the board for any possible captures. If one is available, it takes the capture. If a capture is taken, it checks to see if a sequential capture can occur, and takes it if present. Otherwise, Baxter's turn consists basically of scanning the board for valid moves, and then randomly selecting a valid move to make.
+
+The end result is that Baxter is guaranteed to take a capture if one is present. Otherwise, it plays the game like a young child, following the rules without considering strategy. Future work includes adding a bit of artificial intelligence to this node, possibly by  scanning for legal moves, assigning each move a weight based on factors like immediate counter-capture or taking a double vs. a single jump.
 
 #### Image Recognition
 -> Gale's nodes
