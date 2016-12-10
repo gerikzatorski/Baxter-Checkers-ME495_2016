@@ -136,7 +136,6 @@ Last edited: December 9, 2016
 [Stephanie Chang]: https://github.com/stephanniec
 [Alfonso (Tito) Fernandez]: https://github.com/enginerd887
 [Gerik Zatorski]: https://github.com/gerikzatorski
-
 [Baxter]: http://www.rethinkrobotics.com/baxter/
 [baxter_interface]: http://sdk.rethinkrobotics.com/wiki/Baxter_Interface
 [cv_bridge]: http://wiki.ros.org/cv_bridge
