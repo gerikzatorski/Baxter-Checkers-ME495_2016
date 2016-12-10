@@ -94,6 +94,8 @@ As mentioned above, to run the program, the user needs merely to type:
 
 This will run all nodes, getting Baxter ready to play. The user will see the camera image, an image showing where Baxter sees red, an output terminal from the IK solver indicating whether or not valid solutions were found, and a main terminal where the user inputs the human moves.
 
+NOTE: the IK node used in this project (ik_service_client.py) is the IK service from the baxter examples provided by Rethink Robotics. The only modification that was made was that, once the solver solves the IK and finds a solution, *set_joint_positions* was called to get Baxter to move to the position found by the solver. In future iterations, we intend to write a more robust IK node that iteratively calls Baxter's IK service, adds noise to the start and target positions, and calculates a series of poses between start and goal positions in order to make it more likely for a solution to be found. Alternatively, we could figure out how to incorporate MoveIt into our project for more reliable moves.
+
 ###Performance
 Baxter's newly discovered proficiency at playing checkers is the product of a harmonious marriage between the checkers logic and image recognition scripts. While [checkers_stretch.py] shoulders the bulk of the "intelligence" needed for Baxter to follow the rules of checkers, recognize kinging, and execute double jump moves, [center_detection.py] is what helps the robot target specific pieces to move.
 
@@ -111,8 +113,7 @@ To choose a move, Baxter checks the current state of the board for any possible 
 The end result is that Baxter is guaranteed to take a capture if one is present. Otherwise, it plays the game like a young child, following the rules without considering strategy. Future work includes adding a bit of artificial intelligence to this node, possibly by  scanning for legal moves, assigning each move a weight based on factors like immediate counter-capture or taking a double vs. a single jump.
 
 #### Image Recognition
--> Gale's nodes
-
+Image recognition via Baxter's left end effector camera was made possible
 ### Troubleshooting & Future Direction
 Baxter's ability to select and accordingly pick up a particular block highly depends on the ambient lighting in the arena. This is because our package relies on color recognition (RED!) coupled with contour area estimation to single out potential objects to move. During testing, slight variations in how bright or dark different red objects also impacted the accuracy of the color filter. More vibrant shades were received favorably. To fix this issue,
 -> talk about which values we tried to modify and why?
@@ -126,7 +127,7 @@ To refine the method with which Baxter grabs blocks, the distance sensors built 
 ### Concluding Remarks
 This package was created for Professor Jarvis Schultz's ME 495 introductory course to ROS. It is the cumulative result of a quarter's worth of learning.
 
-While the class may now be over, our group plans on integrating more improvements so Baxter can one day be as prolific as Chinook, the machine which beat Checkers Grandmaster Marion Tinsley. Maybe.
+While the class may now be over, our group plans on integrating more improvements so Baxter can one day be as proficient as Chinook, the machine which beat Checkers Grandmaster Marion Tinsley. Maybe.
 
 Last edited: December 9, 2016
 
