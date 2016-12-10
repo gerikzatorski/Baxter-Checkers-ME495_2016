@@ -5,7 +5,7 @@
 
 ## Team 2
 -------------------------------------------
->Gale Curry | Stephanie Chang | Alfonso (Tito) Fernandez |Gerik Zatorski
+>Gale Curry | Stephanie Chang | Alfonso (Tito) Fernandez | Gerik Zatorski
 
 ### Introduction
 
@@ -94,7 +94,7 @@ As mentioned above, to run the program, the user needs merely to type:
 This will run all nodes, getting Baxter ready to play. The user will see the camera image, an image showing where Baxter sees red, an output terminal from the IK solver indicating whether or not valid solutions were found, and a main terminal where the user inputs the human moves.
 
 ###Performance
-Baxter's newly discovered proficiency at playing checkers is the product of a harmonious marriage between the checkers logic and image recognition scripts. While [checkers_stretch.py] shoulders the bulk of the "intelligence" needed for Baxter to follow the rules of checkers, recognize kinging, and double jump moves, [center_detection.py] is what helps the robot target specific pieces to move.
+Baxter's newly discovered proficiency at playing checkers is the product of a harmonious marriage between the checkers logic and image recognition scripts. While [checkers_stretch.py] shoulders the bulk of the "intelligence" needed for Baxter to follow the rules of checkers, recognize kinging, and execute double jump moves, [center_detection.py] is what helps the robot target specific pieces to move.
 
 #### Checkers Logic
 -> Gerik, please briefly summarize how your logic works
@@ -104,7 +104,7 @@ Baxter's newly discovered proficiency at playing checkers is the product of a ha
 -> Gale's nodes
 
 ### Troubleshooting & Future Direction
-Baxter's ability to select and accordingly pick up a particular block highly depends on the ambient lighting in the arena.
+Baxter's ability to select and accordingly pick up a particular block highly depends on the ambient lighting in the arena. This is because our package relies on color recognition (RED!) coupled with contour area estimation to single out potential objects to move. During testing, slight variations in how bright or dark different red objects also impacted the accuracy of the color filter. More vibrant shades were received favorably. To fix this issue,
 -> talk about which values we tried to modify and why?
 
 Currently, our code only makes use of Baxter's left arm to manipulate objects. As a result, there are positions on the board which the ik_service_client has difficulty finding solutions for. To improve Baxter's reach and mobility, the right arm could be enabled when joint angles cannot be found for the left arm.
